@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- TEMPORARY: preview deploy, not production — remove before the real domain launch -->
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Kalakriti Art Studio — a creative space in Uttarahalli, Bengaluru offering art classes and workshops for kids and adults. Every stroke tells a story."
+    />
+    <title>Kalakriti Art Studio | Art Classes &amp; Workshops in Uttarahalli, Bengaluru</title>
+    <!-- Pairs with public/404.html's GitHub Pages SPA-routing redirect — decodes the real path back before React Router mounts. Remove both when switching to a custom-domain root deploy. -->
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

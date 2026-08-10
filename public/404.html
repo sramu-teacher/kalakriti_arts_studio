@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <!--
+      GitHub Pages is a static file host with no SPA fallback — a direct
+      request or refresh on a client-side route (e.g. /gallery) 404s here
+      instead of reaching index.html. This is the standard workaround
+      (see rafgraph/spa-github-pages): encode the real path into a query
+      string, redirect to the site root, and index.html's inline script
+      decodes it back via history.replaceState before React Router mounts.
+
+      segmentCount must match the base path's segment count — 1 for
+      "/kalakriti_arts_studio/". Update (or remove this file entirely)
+      when switching to a custom-domain root deploy, where it's 0/unneeded.
+    -->
+    <script type="text/javascript">
+      var segmentCount = 1;
+      var l = window.location;
+      l.replace(
+        l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
+        l.pathname.split("/").slice(0, 1 + segmentCount).join("/") + "/?/" +
+        l.pathname.slice(1).split("/").slice(segmentCount).join("/").replace(/&/g, "~and~") +
+        (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

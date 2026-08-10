@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/*
+ * Brand palette sampled directly from the studio's real logo files
+ * (public/brand_logo.jpg, public/brand_fav_icon.jpg) — pixel-sampled
+ * background/gold values, not estimates.
+ */
+@theme {
+  --font-display: "Georgia", "Iowan Old Style", serif;
+  --font-body: "Poppins", "Segoe UI", sans-serif;
+
+  --color-brand-green-950: #16292a;
+  --color-brand-green-900: #203a37;
+  --color-brand-green-800: #2b4a45;
+  --color-brand-green-700: #3a615a;
+
+  --color-brand-gold-400: #d4b57e;
+  --color-brand-gold-500: #c99a5f;
+  --color-brand-gold-600: #a87b42;
+
+  --color-brand-cream-50: #faf7f0;
+  --color-brand-cream-100: #f3ecdd;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-brand-cream-50);
+  color: var(--color-brand-green-950);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
