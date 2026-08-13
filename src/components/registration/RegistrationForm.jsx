@@ -32,7 +32,10 @@ export default function RegistrationForm({ classInfo }) {
     setStatus("submitting");
     setError(null);
     try {
-      await submitRegistration(form);
+      // form.classType holds the URL slug (used to look up selectedClass
+      // above) — swap in the human-readable name here so the Sheet tab
+      // Code.gs creates reads "Little Picassos", not "little-picassos".
+      await submitRegistration({ ...form, classType: selectedClass?.name || form.classType });
       setStatus("success");
     } catch (err) {
       setError(err.message || "Something went wrong — please try again.");

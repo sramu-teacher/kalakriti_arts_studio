@@ -6,19 +6,41 @@
  * Script editor bound to the studio's Google Sheet and deployed as a
  * Web App by hand. See README.md in this folder for the exact steps.
  *
- * Actions:
- *   GET  ?action=banners             -> active + scheduled announcement banners
- *   POST {action:"register", ...}    -> append a class registration row + email owner
- *   POST {action:"contact", ...}     -> append a contact enquiry row + email owner
- *   POST {action:"saveBanner", ...}  -> append a banner row (owner-only, see below)
+ * Actions — all via GET, not POST:
+ *   ?action=banners                              -> active + scheduled announcement banners
+ *   ?action=register&payload=<json>               -> append a class registration row + email owner
+ *   ?action=contact&payload=<json>                -> append a contact enquiry row + email owner
+ *   ?action=saveBanner&payload=<json>              -> append a banner row (owner-only, see below)
+ *
+ * Why GET for writes too: a Web App response is a 302 redirect to a
+ * one-time content URL. Browsers auto-follow that fine for GET, but for
+ * POST the fetch spec downgrades the redirect to GET and drops the
+ * body — the resulting request 404s against Apps Script's redirect
+ * target. GET end-to-end (payload JSON-encoded into a query param)
+ * sidesteps this entirely. See the client in src/utils/googleSheets.js.
+ *
+ * Why every write payload carries a requestId: that same redirect
+ * delivery mechanism is independently flaky — it can fail to deliver
+ * the response to the client even though the script itself already
+ * ran to completion (confirmed via the Executions log: every
+ * invocation completes in ~1s regardless of whether the client ever
+ * sees a response). That makes it unsafe for the client to blindly
+ * retry a write on an unconfirmed response — a "failed" registration
+ * might have actually gone through, and retrying would double-write
+ * it. Each write payload includes a client-generated requestId; before
+ * appending a row, the corresponding handler checks whether that ID is
+ * already present in the sheet and short-circuits to a no-op success
+ * if so. That makes retries safe, so the client can retry aggressively
+ * without risking duplicate rows or duplicate notification emails.
  */
 
 // --- Configuration -----------------------------------------------------
 
 // Only this address may write banners from the /admin page. Update to
 // match VITE_ADMIN_EMAIL in the site's .env.
-const OWNER_EMAIL = "owner@example.com";
+const OWNER_EMAIL = "kalakritiarts.studio@gmail.com";
 
+// Request ID is always the last column — isDuplicateRequest_ relies on that.
 const REGISTRATION_HEADERS = [
   "Timestamp",
   "Student Name",
@@ -29,37 +51,37 @@ const REGISTRATION_HEADERS = [
   "Class",
   "Preferred Schedule",
   "Message",
+  "Request ID",
 ];
 
 const CONTACT_SHEET_NAME = "Contact Enquiries";
-const CONTACT_HEADERS = ["Timestamp", "Name", "Email", "Phone", "Subject", "Message"];
+const CONTACT_HEADERS = ["Timestamp", "Name", "Email", "Phone", "Subject", "Message", "Request ID"];
 
 const BANNERS_SHEET_NAME = "Banners";
-const BANNER_HEADERS = ["Message", "Start Date", "End Date", "Active", "Created At"];
+const BANNER_HEADERS = ["Message", "Start Date", "End Date", "Active", "Created At", "Request ID"];
 
 // --- Entry points --------------------------------------------------------
 
 function doGet(e) {
   const action = e.parameter.action;
-  if (action === "banners") return getActiveBanners_();
-  return jsonResponse_({ error: "unknown action" }, 400);
-}
-
-function doPost(e) {
-  let body;
-  try {
-    body = JSON.parse(e.postData.contents);
-  } catch (err) {
-    return jsonResponse_({ error: "Invalid JSON body" }, 400);
+  let payload = {};
+  if (e.parameter.payload) {
+    try {
+      payload = JSON.parse(e.parameter.payload);
+    } catch (err) {
+      return jsonResponse_({ error: "Invalid JSON payload" }, 400);
+    }
   }
 
-  switch (body.action) {
+  switch (action) {
+    case "banners":
+      return getActiveBanners_();
     case "register":
-      return handleRegistration_(body);
+      return handleRegistration_(payload);
     case "contact":
-      return handleContact_(body);
+      return handleContact_(payload);
     case "saveBanner":
-      return handleSaveBanner_(body);
+      return handleSaveBanner_(payload);
     default:
       return jsonResponse_({ error: "unknown action" }, 400);
   }
@@ -75,6 +97,10 @@ function handleRegistration_(body) {
   }
 
   const sheet = getOrCreateSheet_(body.classType, REGISTRATION_HEADERS);
+  if (isDuplicateRequest_(sheet, body.requestId)) {
+    return jsonResponse_({ success: true });
+  }
+
   sheet.appendRow([
     new Date(),
     body.studentName,
@@ -85,6 +111,7 @@ function handleRegistration_(body) {
     body.classType,
     body.schedule || "",
     body.message || "",
+    body.requestId || "",
   ]);
 
   notifyOwner_(
@@ -112,6 +139,10 @@ function handleContact_(body) {
   }
 
   const sheet = getOrCreateSheet_(CONTACT_SHEET_NAME, CONTACT_HEADERS);
+  if (isDuplicateRequest_(sheet, body.requestId)) {
+    return jsonResponse_({ success: true });
+  }
+
   sheet.appendRow([
     new Date(),
     body.name,
@@ -119,6 +150,7 @@ function handleContact_(body) {
     body.phone || "",
     body.subject || "General Enquiry",
     body.message,
+    body.requestId || "",
   ]);
 
   notifyOwner_(
@@ -148,8 +180,8 @@ function getActiveBanners_() {
 }
 
 // The Web App is deployed "Anyone can execute" (required for anonymous
-// registration/contact POSTs), so it cannot cryptographically verify an
-// OAuth bearer token. This checks the owner's email as sent by the
+// registration/contact requests), so it cannot cryptographically verify
+// an OAuth bearer token. This checks the owner's email as sent by the
 // client after Google sign-in on /admin — a "trust the client + shared
 // knowledge" model, not real server-side auth. Acceptable for a single-
 // admin CMS where the worst case is a bogus banner row, not a data or
@@ -163,7 +195,11 @@ function handleSaveBanner_(body) {
   }
 
   const sheet = getOrCreateSheet_(BANNERS_SHEET_NAME, BANNER_HEADERS);
-  sheet.appendRow([body.message, body.startDate, body.endDate, !!body.active, new Date()]);
+  if (isDuplicateRequest_(sheet, body.requestId)) {
+    return jsonResponse_({ success: true });
+  }
+
+  sheet.appendRow([body.message, body.startDate, body.endDate, !!body.active, new Date(), body.requestId || ""]);
 
   return jsonResponse_({ success: true });
 }
@@ -179,6 +215,19 @@ function getOrCreateSheet_(name, headers) {
     sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
   }
   return sheet;
+}
+
+// Request ID is always the last column (see the *_HEADERS arrays above).
+// No requestId on the payload (an older client, or a call that
+// genuinely doesn't need dedup) just means dedup is skipped — never
+// treated as a false match.
+function isDuplicateRequest_(sheet, requestId) {
+  if (!requestId) return false;
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return false; // header row only, nothing to compare
+  const idColumn = sheet.getLastColumn();
+  const ids = sheet.getRange(2, idColumn, lastRow - 1, 1).getValues();
+  return ids.some((row) => row[0] === requestId);
 }
 
 function notifyOwner_(subject, body) {
