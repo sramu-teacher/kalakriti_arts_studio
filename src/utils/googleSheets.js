@@ -88,8 +88,27 @@ export function submitContact(payload) {
   return requestWithRetry("contact", { ...payload, requestId: newRequestId() });
 }
 
+export function submitEventInterest(payload) {
+  return requestWithRetry("eventInterest", { ...payload, requestId: newRequestId() });
+}
+
 export function saveBanner(payload) {
   return requestWithRetry("saveBanner", { ...payload, requestId: newRequestId() });
+}
+
+// Safe to retry — editing the same row with the same values twice does
+// no harm (see the comment on handleUpdateBanner_ in Code.gs).
+export function updateBanner(payload) {
+  return requestWithRetry("updateBanner", payload);
+}
+
+// Deliberately a single attempt, not requestWithRetry — deleting shifts
+// every later row up by one, so retrying with the same rowNumber after
+// an unconfirmed-but-actually-successful delete could remove the wrong
+// banner. BannerEditor re-fetches the list after every delete attempt
+// (success or failure) so displayed rowNumbers are never stale.
+export function deleteBanner(payload) {
+  return request("deleteBanner", payload);
 }
 
 export function getBanners() {

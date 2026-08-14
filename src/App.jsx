@@ -5,6 +5,8 @@ import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Classes from "./pages/Classes.jsx";
 import ClassRegister from "./pages/ClassRegister.jsx";
+import Events from "./pages/Events.jsx";
+import EventInterest from "./pages/EventInterest.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import Contact from "./pages/Contact.jsx";
 import Admin from "./pages/Admin.jsx";
@@ -30,6 +32,8 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/classes" element={<Classes />} />
           <Route path="/classes/:slug/register" element={<ClassRegister />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/:slug/interest" element={<EventInterest />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />

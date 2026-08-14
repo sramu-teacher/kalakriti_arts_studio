@@ -21,6 +21,7 @@ export const NAV_LINKS = [
   { label: "Home", path: "/" },
   { label: "Our Story", path: "/about" },
   { label: "Classes", path: "/classes" },
+  { label: "Events", path: "/events" },
   { label: "Gallery", path: "/gallery" },
   { label: "Contact", path: "/contact" },
 ];
