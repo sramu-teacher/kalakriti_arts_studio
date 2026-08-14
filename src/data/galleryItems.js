@@ -1,10 +1,27 @@
-// Placeholder gallery entries (colored panels) until the owner supplies
-// real studio/artwork photography — see plan Open Item #3.
+// Real studio artwork photography, supplied by the owner (Drive folder
+// "Paintings_By_Studio"). Titles below are best-guess descriptions from
+// looking at each photo — flagged for the owner to correct/confirm,
+// since getting traditional art-form names right matters here.
+//
+// Paths are prefixed with BASE_URL (not hardcoded "/gallery/...") since
+// this currently deploys under a GitHub Pages subpath
+// (/kalakriti_arts_studio/) — see the same fix applied to the logo in
+// Header.jsx/Footer.jsx. BASE_URL is "/" locally and in a future
+// custom-domain root deploy, so this works unchanged either way.
+const base = import.meta.env.BASE_URL;
+
 export const GALLERY_ITEMS = [
-  { id: 1, title: "Floral Watercolour", theme: "gold" },
-  { id: 2, title: "Ocean Waves Acrylic", theme: "green" },
-  { id: 3, title: "Butterfly Mandala", theme: "deep-green" },
-  { id: 4, title: "Warli Village Scene", theme: "gold" },
-  { id: 5, title: "Botanical Sketch", theme: "green" },
-  { id: 6, title: "Resin Art Coaster", theme: "deep-green" },
+  { id: 1, title: "Clay Floral Relief on Wood", image: `${base}gallery/clay-floral-relief.jpg` },
+  { id: 2, title: "Mysore Painting — Hamsa Bird", image: `${base}gallery/mysore-hamsa-plate.jpg` },
+  { id: 3, title: "Lord Ganesha, Kerala Mural Style", image: `${base}gallery/ganesha-kerala-mural.jpg` },
+  { id: 4, title: "Lantern-Lit Wooden Veranda", image: `${base}gallery/rustic-porch-painting.jpg` },
+  { id: 5, title: "Ardhanarishvara, Kerala Mural Style", image: `${base}gallery/ardhanarishvara-mural.jpg` },
+  { id: 6, title: "Dream Journey Capture, Mixed Media", image: `${base}gallery/mixed-media-dream-journey.jpg` },
+  { id: 7, title: "Ocean Sunset, Multi-Panel Canvas", image: `${base}gallery/ocean-sunset-panels.jpg` },
+  { id: 8, title: "Serene Buddha with Bodhi Leaves", image: `${base}gallery/buddha-bodhi-leaves.jpg` },
+  { id: 9, title: "Traditional Tanjore Painting", image: `${base}gallery/tanjore-deity.jpg` },
+  { id: 10, title: "Blue Buddha & Lotus Pond", image: `${base}gallery/blue-buddha-lotus-pond.jpg` },
+  { id: 11, title: "Sacred Om Gesso Relief Panel", image: `${base}gallery/om-gesso-relief.jpg` },
+  { id: 12, title: "Gandaberunda Miniature Painting", image: `${base}gallery/gandaberunda-miniature.jpg` },
+  { id: 13, title: "Pichwai-Style Wall Disc Collection", image: `${base}gallery/pichwai-disc-collection.jpg` },
 ];

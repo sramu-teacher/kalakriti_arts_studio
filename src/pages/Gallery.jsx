@@ -7,15 +7,15 @@ export default function Gallery() {
     <>
       <SEO
         title="Gallery"
-        description="A glimpse into the beautiful artwork created by students at Kalakriti Art Studio."
+        description="Studio showcase pieces from Kalakriti Art Studio — a glimpse into the artwork and traditional painting styles taught here."
       />
       <div className="px-4 pt-12 text-center sm:px-8">
         <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-600">Gallery</p>
         <h1 className="mt-2 font-display text-3xl text-brand-green-900 sm:text-4xl">
-          Stories <span className="italic">Painted</span> by Our Students
+          Masterpiece Creativity at Display
         </h1>
         <p className="mx-auto mt-2 max-w-xl text-brand-green-900/75">
-          A glimpse into the beautiful work created right here at Kalakriti.
+          A selection of studio showcase pieces from Kalakriti Art Studio.
         </p>
       </div>
 
