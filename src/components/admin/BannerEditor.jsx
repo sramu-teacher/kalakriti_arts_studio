@@ -3,7 +3,7 @@ import { Loader2, Megaphone } from "lucide-react";
 import { getBanners, saveBanner } from "../../utils/googleSheets.js";
 import { isBannerActive } from "../../utils/dateRange.js";
 
-const initialForm = { message: "", startDate: "", endDate: "", active: true };
+const initialForm = { message: "", startDate: "", endDate: "", active: true, actionLabel: "", actionUrl: "" };
 
 export default function BannerEditor({ ownerEmail }) {
   const [banners, setBanners] = useState([]);
@@ -93,6 +93,32 @@ export default function BannerEditor({ ownerEmail }) {
           Active
         </label>
 
+        <div className="grid grid-cols-2 gap-4">
+          <label className="block text-sm font-medium text-brand-green-900">
+            Action Label <span className="font-normal text-brand-green-900/50">(optional)</span>
+            <input
+              type="text"
+              placeholder="e.g. Enquire Now"
+              value={form.actionLabel}
+              onChange={(e) => updateField("actionLabel", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-brand-green-800/20 px-3 py-2 outline-none focus:border-brand-gold-500 focus:ring-2 focus:ring-brand-gold-500/30"
+            />
+          </label>
+          <label className="block text-sm font-medium text-brand-green-900">
+            Action Link <span className="font-normal text-brand-green-900/50">(optional)</span>
+            <input
+              type="text"
+              placeholder="/contact or https://wa.me/..."
+              value={form.actionUrl}
+              onChange={(e) => updateField("actionUrl", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-brand-green-800/20 px-3 py-2 outline-none focus:border-brand-gold-500 focus:ring-2 focus:ring-brand-gold-500/30"
+            />
+          </label>
+        </div>
+        <p className="-mt-2 text-xs text-brand-green-900/50">
+          Leave both blank for a message-only banner with just a dismiss button.
+        </p>
+
         {error && <p className="text-sm text-red-600">{error}</p>}
 
         <button
@@ -126,6 +152,11 @@ export default function BannerEditor({ ownerEmail }) {
                     <span className="text-brand-green-900/50">Inactive</span>
                   )}
                 </p>
+                {banner.actionLabel && banner.actionUrl && (
+                  <p className="mt-1 text-xs text-brand-green-900/60">
+                    Action: "{banner.actionLabel}" → {banner.actionUrl}
+                  </p>
+                )}
               </li>
             ))}
           </ul>

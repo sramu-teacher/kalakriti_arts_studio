@@ -40,7 +40,6 @@
 // match VITE_ADMIN_EMAIL in the site's .env.
 const OWNER_EMAIL = "kalakritiarts.studio@gmail.com";
 
-// Request ID is always the last column — isDuplicateRequest_ relies on that.
 const REGISTRATION_HEADERS = [
   "Timestamp",
   "Student Name",
@@ -58,7 +57,22 @@ const CONTACT_SHEET_NAME = "Contact Enquiries";
 const CONTACT_HEADERS = ["Timestamp", "Name", "Email", "Phone", "Subject", "Message", "Request ID"];
 
 const BANNERS_SHEET_NAME = "Banners";
-const BANNER_HEADERS = ["Message", "Start Date", "End Date", "Active", "Created At", "Request ID"];
+// Action Label/Action URL were added after Request ID (rather than
+// before it) so the one banner row created before this feature existed
+// doesn't need to be manually migrated — old rows just read back with
+// no action link, which is correct. isDuplicateRequest_ below looks up
+// "Request ID" by header name rather than assuming it's the last
+// column, so this ordering doesn't break dedup.
+const BANNER_HEADERS = [
+  "Message",
+  "Start Date",
+  "End Date",
+  "Active",
+  "Created At",
+  "Request ID",
+  "Action Label",
+  "Action URL",
+];
 
 // --- Entry points --------------------------------------------------------
 
@@ -175,6 +189,11 @@ function getActiveBanners_() {
       startDate: formatDate_(row[1]),
       endDate: formatDate_(row[2]),
       active: row[3] === true || row[3] === "TRUE",
+      // row[6]/row[7] are undefined for banners created before the
+      // Action Label/Action URL columns existed — "" is correct there
+      // (no action link), not a bug.
+      actionLabel: row[6] || "",
+      actionUrl: row[7] || "",
     }));
   return jsonResponse_({ banners: banners });
 }
@@ -199,7 +218,16 @@ function handleSaveBanner_(body) {
     return jsonResponse_({ success: true });
   }
 
-  sheet.appendRow([body.message, body.startDate, body.endDate, !!body.active, new Date(), body.requestId || ""]);
+  sheet.appendRow([
+    body.message,
+    body.startDate,
+    body.endDate,
+    !!body.active,
+    new Date(),
+    body.requestId || "",
+    body.actionLabel || "",
+    body.actionUrl || "",
+  ]);
 
   return jsonResponse_({ success: true });
 }
@@ -217,7 +245,6 @@ function getOrCreateSheet_(name, headers) {
   return sheet;
 }
 
-// Request ID is always the last column (see the *_HEADERS arrays above).
 // No requestId on the payload (an older client, or a call that
 // genuinely doesn't need dedup) just means dedup is skipped — never
 // treated as a false match.
@@ -225,9 +252,20 @@ function isDuplicateRequest_(sheet, requestId) {
   if (!requestId) return false;
   const lastRow = sheet.getLastRow();
   if (lastRow < 2) return false; // header row only, nothing to compare
-  const idColumn = sheet.getLastColumn();
+  const idColumn = findColumn_(sheet, "Request ID");
+  if (!idColumn) return false;
   const ids = sheet.getRange(2, idColumn, lastRow - 1, 1).getValues();
   return ids.some((row) => row[0] === requestId);
+}
+
+// 1-based column index for a header, or null if not found — looked up
+// by name rather than assumed position, since Banners has columns
+// (Action Label/URL) added after Request ID for backward compatibility
+// with the row created before that feature existed.
+function findColumn_(sheet, headerName) {
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const index = headers.indexOf(headerName);
+  return index === -1 ? null : index + 1;
 }
 
 function notifyOwner_(subject, body) {
