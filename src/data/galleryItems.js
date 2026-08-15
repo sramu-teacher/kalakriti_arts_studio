@@ -24,4 +24,12 @@ export const GALLERY_ITEMS = [
   { id: 11, title: "Sacred Om Gesso Relief Panel", image: `${base}gallery/om-gesso-relief.jpg` },
   { id: 12, title: "Gandaberunda Miniature Painting", image: `${base}gallery/gandaberunda-miniature.jpg` },
   { id: 13, title: "Pichwai-Style Wall Disc Collection", image: `${base}gallery/pichwai-disc-collection.jpg` },
+  { id: 14, title: "Feather Ballerina Keepsake", image: `${base}gallery/feather-ballerina-keepsake.jpg` },
+  { id: 15, title: "Twin Swans in Blue", image: `${base}gallery/twin-swans-painting.jpg` },
+  { id: 16, title: "A Young Artist & Her Feather Ballerina", image: `${base}gallery/young-artist-feather-ballerina.jpg` },
+  { id: 17, title: "Little Hands, Big Creativity", image: `${base}gallery/little-hands-big-creativity.jpg` },
+  { id: 18, title: "Creative Time Together", image: `${base}gallery/creative-time-together.jpg` },
+  { id: 19, title: "Sketching Together", image: `${base}gallery/sketching-together.jpg` },
+  { id: 20, title: "Hand-Painted Tote Bags", image: `${base}gallery/hand-painted-tote-bags.jpg` },
+  { id: 21, title: "Madhubani-Style Wall Clock", image: `${base}gallery/madhubani-style-wall-clock.jpg` },
 ];
