@@ -1,5 +1,5 @@
 import { Phone, Mail } from "lucide-react";
-import { INSTAGRAM_URL, WHATSAPP_URL, CONTACT_EMAIL } from "../../data/constants.js";
+import { INSTAGRAM_URL, FACEBOOK_URL, WHATSAPP_URL, CONTACT_EMAIL } from "../../data/constants.js";
 
 const ICON_CLASS =
   "flex h-9 w-9 items-center justify-center rounded-full border border-brand-gold-500/50 text-brand-gold-400 transition-colors hover:bg-brand-gold-500 hover:text-brand-green-950";
@@ -27,11 +27,36 @@ function InstagramIcon(props) {
   );
 }
 
+// Same reasoning as InstagramIcon above — a hand-drawn "f" flag glyph
+// in lucide's stroke style, since no Facebook icon ships in this
+// version of lucide-react either.
+function FacebookIcon(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M15 4h-2a3 3 0 0 0-3 3v3H7v3h3v7h3v-7h2.5l.5-3h-3V7a1 1 0 0 1 1-1h2z" />
+    </svg>
+  );
+}
+
 export default function SocialIcons() {
   return (
     <div className="flex gap-3">
       <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={ICON_CLASS}>
         <InstagramIcon />
+      </a>
+      <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={ICON_CLASS}>
+        <FacebookIcon />
       </a>
       <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className={ICON_CLASS}>
         <Phone size={18} />

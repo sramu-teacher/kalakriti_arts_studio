@@ -1,8 +1,11 @@
-import { ADDRESS_LINES } from "../../data/constants.js";
+import { BUSINESS_MAP_QUERY } from "../../data/constants.js";
 
-// Plain Google Maps embed URL keyed off the address — no API key
-// required for this basic form. See plan Open Item #9.
-const query = encodeURIComponent(ADDRESS_LINES.join(", "));
+// Keyed off the business name + locality rather than the raw street
+// address — Google's embed geocoder resolves a named, listed business
+// far more reliably than parsing address text (confirmed the business
+// is uniquely findable this way via its Knowledge Graph entry). No API
+// key required for this basic embed form.
+const query = encodeURIComponent(BUSINESS_MAP_QUERY);
 const EMBED_SRC = `https://www.google.com/maps?q=${query}&output=embed`;
 
 export default function MapEmbed() {
