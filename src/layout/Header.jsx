@@ -13,7 +13,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 bg-brand-green-900 text-brand-cream-100 shadow-sm">
+    <header className="bg-brand-green-900 text-brand-cream-100 shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-8">
         <Link to="/" onClick={() => setOpen(false)}>
           <img

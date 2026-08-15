@@ -8,8 +8,14 @@ import WhatsAppFab from "../components/shared/WhatsAppFab.jsx";
 export default function Layout() {
   return (
     <div className="flex min-h-screen flex-col bg-brand-cream-50">
-      <AnnouncementBanner />
-      <Header />
+      {/* Banner + header stick together as one unit — previously only
+          the header was sticky, so the banner (rendered above it in
+          the DOM) scrolled out of view the instant a user scrolled at
+          all, making it effectively invisible in practice. */}
+      <div className="sticky top-0 z-30">
+        <AnnouncementBanner />
+        <Header />
+      </div>
       <Breadcrumbs />
       <main className="flex-1">
         <Outlet />
