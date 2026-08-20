@@ -3,6 +3,7 @@
   <url><loc>https://kalakritiartstudio.com/</loc><priority>1.0</priority></url>
   <url><loc>https://kalakritiartstudio.com/about</loc><priority>0.8</priority></url>
   <url><loc>https://kalakritiartstudio.com/classes</loc><priority>0.9</priority></url>
+  <url><loc>https://kalakritiartstudio.com/catalog</loc><priority>0.7</priority></url>
   <url><loc>https://kalakritiartstudio.com/events</loc><priority>0.8</priority></url>
   <url><loc>https://kalakritiartstudio.com/gallery</loc><priority>0.6</priority></url>
   <url><loc>https://kalakritiartstudio.com/contact</loc><priority>0.7</priority></url>
@@ -11,6 +12,6 @@
   <url><loc>https://kalakritiartstudio.com/classes/mandala-zen-art/register</loc><priority>0.5</priority></url>
   <url><loc>https://kalakritiartstudio.com/classes/watercolour-mastery/register</loc><priority>0.5</priority></url>
   <url><loc>https://kalakritiartstudio.com/classes/clay-pottery/register</loc><priority>0.5</priority></url>
-  <url><loc>https://kalakritiartstudio.com/classes/calligraphy-lettering/register</loc><priority>0.5</priority></url>
-  <url><loc>https://kalakritiartstudio.com/events/birthday-parties/interest</loc><priority>0.5</priority></url>
+  <url><loc>https://kalakritiartstudio.com/events/special-event-celebrations/interest</loc><priority>0.5</priority></url>
+  <url><loc>https://kalakritiartstudio.com/events/seasonal-holiday-camp/interest</loc><priority>0.5</priority></url>
 </urlset>
