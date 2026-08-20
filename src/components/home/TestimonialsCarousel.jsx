@@ -36,7 +36,7 @@ export default function TestimonialsCarousel() {
                 <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
               ))}
             </div>
-            <p className="mt-5 line-clamp-6 text-brand-green-900/90 sm:line-clamp-5">"{current.quote}"</p>
+            <p className="mt-5 text-brand-green-900/90">"{current.quote}"</p>
             <p className="mt-6 font-display text-lg text-brand-green-900">{current.name}</p>
             {current.badge && <p className="text-xs text-brand-green-900/60">{current.badge}</p>}
           </div>
