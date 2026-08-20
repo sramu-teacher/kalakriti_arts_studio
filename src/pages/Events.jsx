@@ -6,8 +6,8 @@ export default function Events() {
   return (
     <>
       <SEO
-        title="Events"
-        description="Host your next celebration at Kalakriti Art Studio — art birthday parties and more, with everything taken care of."
+        title="Art Events & Celebrations in Bengaluru"
+        description="Host a birthday party, holiday camp, or special celebration at Kalakriti Art Studio in Uttarahalli, Bengaluru — everything taken care of."
       />
       <div className="bg-brand-green-900 px-4 py-14 text-center text-brand-cream-100 sm:px-8">
         <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-400">Studio Events</p>

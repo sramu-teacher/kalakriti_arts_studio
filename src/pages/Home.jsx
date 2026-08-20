@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Home"
+        title="Art Classes in Uttarahalli, Bengaluru"
         description="A creative space for kids and adults in Uttarahalli, Bengaluru to learn, create, and express through art. Explore our classes and workshops."
       />
       <Hero />
