@@ -7,11 +7,88 @@
     <link rel="icon" type="image/png" href="/favicon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#173f37" />
     <meta
       name="description"
-      content="Kalakriti Art Studio — a creative space in Uttarahalli, Bengaluru offering art classes and workshops for kids and adults. Every stroke tells a story."
+      content="Kalakriti Art Studio — art classes, workshops & traditional Indian painting styles in Uttarahalli, Bengaluru, for kids and adults. Every stroke tells a story."
     />
     <title>Kalakriti Art Studio | Art Classes &amp; Workshops in Uttarahalli, Bengaluru</title>
+
+    <!--
+      Static baseline OG/Twitter tags, always present in the raw HTML —
+      not just set via JS (see components/shared/SEO.jsx, which
+      overrides these per-route for browsers/crawlers that execute
+      JS). Social/chat link-preview bots (WhatsApp, Facebook, LinkedIn,
+      X) generally do NOT run JS, so without this baseline every shared
+      link — regardless of which page — would show a blank/generic
+      preview card. These point at the production domain even while
+      this deploys from a github.io preview URL, matching the same
+      convention already used in robots.txt/sitemap.xml (see README's
+      "Currently in preview mode" section) — update the base image URL
+      there too if the domain ever changes.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kalakriti Art Studio" />
+    <meta property="og:url" content="https://kalakritiartstudio.com/" />
+    <meta property="og:title" content="Kalakriti Art Studio | Art Classes & Workshops in Uttarahalli, Bengaluru" />
+    <meta
+      property="og:description"
+      content="Kalakriti Art Studio — art classes, workshops & traditional Indian painting styles in Uttarahalli, Bengaluru, for kids and adults. Every stroke tells a story."
+    />
+    <meta property="og:image" content="https://kalakritiartstudio.com/brand_logo.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kalakriti Art Studio | Art Classes & Workshops in Uttarahalli, Bengaluru" />
+    <meta
+      name="twitter:description"
+      content="Kalakriti Art Studio — art classes, workshops & traditional Indian painting styles in Uttarahalli, Bengaluru, for kids and adults."
+    />
+    <meta name="twitter:image" content="https://kalakritiartstudio.com/brand_logo.jpg" />
+
+    <!--
+      LocalBusiness structured data — helps Google understand this as a
+      real local business (name/address/phone/hours), which matters
+      more for "art classes near me"-type search than on-page copy
+      alone. geo coordinates deliberately omitted rather than guessed —
+      an unverified lat/long is worse than none.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Kalakriti Art Studio",
+        "description": "A creative space in Uttarahalli, Bengaluru offering art classes, workshops, and traditional Indian painting styles for kids and adults.",
+        "url": "https://kalakritiartstudio.com/",
+        "telephone": "+917022474888",
+        "email": "kalakritiarts.studio@gmail.com",
+        "image": "https://kalakritiartstudio.com/brand_logo.jpg",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Balaji Layout, Near Nano Hospital",
+          "addressLocality": "Uttarahalli, Bengaluru",
+          "addressRegion": "Karnataka",
+          "postalCode": "560061",
+          "addressCountry": "IN"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            "opens": "10:00",
+            "closes": "19:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Sunday",
+            "opens": "10:00",
+            "closes": "17:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.instagram.com/kalakrtiartstudio",
+          "https://www.facebook.com/share/1NyeWoZ91Z/"
+        ]
+      }
+    </script>
     <!-- Pairs with public/404.html's GitHub Pages SPA-routing redirect — decodes the real path back before React Router mounts. Remove both when switching to a custom-domain root deploy. -->
     <script type="text/javascript">
       (function (l) {

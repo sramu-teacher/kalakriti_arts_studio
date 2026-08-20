@@ -7,7 +7,7 @@ export default function Contact() {
   return (
     <>
       <SEO
-        title="Contact"
+        title="Contact Us in Uttarahalli, Bengaluru"
         description="Get in touch with Kalakriti Art Studio in Uttarahalli, Bengaluru — visit us, call, WhatsApp, or send a message."
       />
       <div className="bg-brand-green-900 px-4 py-14 sm:px-8">

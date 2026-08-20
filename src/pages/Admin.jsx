@@ -12,7 +12,7 @@ export default function Admin() {
 
   return (
     <>
-      <SEO title="Studio Admin" />
+      <SEO title="Studio Admin" noindex />
       <div className="px-4 py-14 sm:px-8">
         {!profile ? (
           <AdminLogin onSignIn={signIn} signingIn={signingIn} error={error} />

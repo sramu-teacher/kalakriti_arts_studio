@@ -4,7 +4,7 @@ import SEO from "../components/shared/SEO.jsx";
 export default function NotFound() {
   return (
     <>
-      <SEO title="Page Not Found" />
+      <SEO title="Page Not Found" noindex />
       <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
         <h1 className="font-display text-4xl text-brand-green-900">404</h1>
         <p className="mt-2 text-brand-green-900/75">We couldn't find that page.</p>
