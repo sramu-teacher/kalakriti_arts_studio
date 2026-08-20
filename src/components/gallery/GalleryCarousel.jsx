@@ -31,7 +31,7 @@ export default function GalleryCarousel() {
             <div key={item.id} className="flex h-80 w-full shrink-0 items-center justify-center sm:h-[28rem]">
               <img
                 src={item.image}
-                alt={item.title}
+                alt={item.subtitle ? `${item.title} — ${item.subtitle}` : item.title}
                 className="h-full w-full object-contain"
                 loading={item.id === GALLERY_ITEMS[0].id ? "eager" : "lazy"}
               />
@@ -64,6 +64,9 @@ export default function GalleryCarousel() {
       <p className="mt-4 text-center font-display text-lg text-brand-green-900">
         {GALLERY_ITEMS[index].title}
       </p>
+      {GALLERY_ITEMS[index].subtitle && (
+        <p className="text-center text-sm text-brand-green-900/70">{GALLERY_ITEMS[index].subtitle}</p>
+      )}
     </div>
   );
 }
