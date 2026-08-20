@@ -1,6 +1,10 @@
 export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "917022474888";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 export const PHONE_DISPLAY = "+91 70224 74888";
+// tel: links want a plain digit string (with a leading + for the
+// country code) — no spaces — so this is built from WHATSAPP_NUMBER
+// rather than reusing the spaced-out PHONE_DISPLAY text.
+export const TEL_URL = `tel:+${WHATSAPP_NUMBER}`;
 export const INSTAGRAM_URL = "https://www.instagram.com/kalakrtiartstudio";
 export const FACEBOOK_URL = "https://www.facebook.com/share/1NyeWoZ91Z/";
 export const CONTACT_EMAIL = "kalakritiarts.studio@gmail.com";

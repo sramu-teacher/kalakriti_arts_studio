@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { NAV_LINKS, ADDRESS_LINES, PHONE_DISPLAY, CONTACT_EMAIL } from "../data/constants.js";
+import { NAV_LINKS, ADDRESS_LINES, PHONE_DISPLAY, TEL_URL, CONTACT_EMAIL } from "../data/constants.js";
 import { CLASSES } from "../data/classes.js";
 import SocialIcons from "../components/shared/SocialIcons.jsx";
 
@@ -52,7 +52,11 @@ export default function Footer() {
             {ADDRESS_LINES.map((line) => (
               <p key={line}>{line}</p>
             ))}
-            <p className="pt-2">{PHONE_DISPLAY}</p>
+            <p className="pt-2">
+              <a href={TEL_URL} className="hover:text-brand-gold-400">
+                {PHONE_DISPLAY}
+              </a>
+            </p>
             <p>{CONTACT_EMAIL}</p>
           </address>
         </div>

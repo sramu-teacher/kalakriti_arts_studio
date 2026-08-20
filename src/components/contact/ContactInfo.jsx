@@ -2,6 +2,7 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import {
   ADDRESS_LINES,
   PHONE_DISPLAY,
+  TEL_URL,
   CONTACT_EMAIL,
   STUDIO_HOURS,
   MAPS_LINK,
@@ -45,7 +46,12 @@ export default function ContactInfo() {
         <div className={ICON_WRAP}>
           <Phone size={18} />
         </div>
-        <p className="text-brand-cream-100/85">{PHONE_DISPLAY} (Phone / WhatsApp)</p>
+        <p className="text-brand-cream-100/85">
+          <a href={TEL_URL} className="hover:text-brand-gold-400">
+            {PHONE_DISPLAY}
+          </a>{" "}
+          (Phone / WhatsApp)
+        </p>
       </div>
 
       <div className={ROW_CLASS}>

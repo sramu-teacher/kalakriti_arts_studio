@@ -1,5 +1,5 @@
 import { Phone, Mail } from "lucide-react";
-import { INSTAGRAM_URL, FACEBOOK_URL, WHATSAPP_URL, CONTACT_EMAIL } from "../../data/constants.js";
+import { INSTAGRAM_URL, FACEBOOK_URL, TEL_URL, CONTACT_EMAIL } from "../../data/constants.js";
 
 const ICON_CLASS =
   "flex h-9 w-9 items-center justify-center rounded-full border border-brand-gold-500/50 text-brand-gold-400 transition-colors hover:bg-brand-gold-500 hover:text-brand-green-950";
@@ -58,7 +58,7 @@ export default function SocialIcons() {
       <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={ICON_CLASS}>
         <FacebookIcon />
       </a>
-      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className={ICON_CLASS}>
+      <a href={TEL_URL} aria-label="Call us" className={ICON_CLASS}>
         <Phone size={18} />
       </a>
       <a href={`mailto:${CONTACT_EMAIL}`} aria-label="Email" className={ICON_CLASS}>
