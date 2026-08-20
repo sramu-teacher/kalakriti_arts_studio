@@ -30,22 +30,15 @@ export default function TestimonialsCarousel() {
         <h2 className="mt-2 font-display text-3xl">Loved by Our Students & Parents</h2>
 
         <div className="relative mt-10">
-          {/* Fixed height + flex layout keeps stars/name pinned at the same
-              position on every card regardless of quote length, so the
-              carousel doesn't visibly resize as it rotates. */}
-          <div className="flex h-80 flex-col rounded-2xl bg-brand-cream-50 p-8 text-brand-green-900 shadow-lg sm:p-10">
+          <div className="rounded-2xl bg-brand-cream-50 p-8 text-brand-green-900 shadow-lg sm:p-10">
             <div className="flex justify-center gap-1 text-brand-gold-500">
               {Array.from({ length: current.rating }).map((_, i) => (
                 <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
               ))}
             </div>
-            <div className="flex flex-1 items-center justify-center">
-              <p className="line-clamp-6 text-brand-green-900/90">"{current.quote}"</p>
-            </div>
-            <div>
-              <p className="font-display text-lg text-brand-green-900">{current.name}</p>
-              {current.badge && <p className="text-xs text-brand-green-900/60">{current.badge}</p>}
-            </div>
+            <p className="mt-5 line-clamp-6 text-brand-green-900/90 sm:line-clamp-5">"{current.quote}"</p>
+            <p className="mt-6 font-display text-lg text-brand-green-900">{current.name}</p>
+            {current.badge && <p className="text-xs text-brand-green-900/60">{current.badge}</p>}
           </div>
 
           <button
