@@ -5,8 +5,8 @@ export default function Hero() {
   return (
     <section className="bg-brand-green-900 px-4 py-16 text-center text-brand-cream-100 sm:px-8 sm:py-24">
       <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-400">{HOME_WELCOME.eyebrow}</p>
-      <h1 className="mx-auto mt-4 max-w-3xl font-display text-4xl leading-tight sm:text-5xl">
-        Kalakriti <span className="text-brand-gold-400">Art Studio</span>
+      <h1 className="mx-auto mt-4 max-w-3xl font-display text-4xl leading-tight text-brand-gold-400 sm:text-5xl">
+        Kalakriti Art Studio
       </h1>
       <p className="mt-2 font-display italic text-brand-gold-400/90">"{TAGLINE}"</p>
       <p className="mx-auto mt-6 max-w-2xl text-brand-cream-100/85">{HOME_WELCOME.intro}</p>
