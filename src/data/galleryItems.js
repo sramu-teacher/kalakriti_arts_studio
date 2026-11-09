@@ -34,4 +34,5 @@ export const GALLERY_ITEMS = [
   { id: 19, title: "Sketching Together", image: `${base}gallery/sketching-together.jpg` },
   { id: 20, title: "Hand-Painted Tote Bags", image: `${base}gallery/hand-painted-tote-bags.jpg` },
   { id: 21, title: "Madhubani-Style Wall Clock", subtitle: "Gond Art Wall Clock", image: `${base}gallery/madhubani-style-wall-clock.jpg` },
+  { id: 22, title: "Art That Can Come Out in Real", image: `${base}gallery/art-that-can-come-out-in-real.jpg` },
 ];
