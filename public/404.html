@@ -11,12 +11,12 @@
       string, redirect to the site root, and index.html's inline script
       decodes it back via history.replaceState before React Router mounts.
 
-      segmentCount must match the base path's segment count — 1 for
-      "/kalakriti_arts_studio/". Update (or remove this file entirely)
-      when switching to a custom-domain root deploy, where it's 0/unneeded.
+      segmentCount must match the base path's segment count — 0 for the
+      site served from the root of kalakritiartstudio.com. (It was 1
+      during the github.io/kalakriti_arts_studio/ preview.)
     -->
     <script type="text/javascript">
-      var segmentCount = 1;
+      var segmentCount = 0;
       var l = window.location;
       l.replace(
         l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +

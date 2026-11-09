@@ -1,12 +1,5 @@
-# TEMPORARY: this is a preview deploy at a github.io URL, not the
-# production kalakritiartstudio.com site — keep it out of search
-# results until it's ready to go live. Restore the commented block
-# below (and delete this Disallow-all) for the production deploy.
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /admin
 
-# User-agent: *
-# Allow: /
-# Disallow: /admin
-#
-# Sitemap: https://kalakritiartstudio.com/sitemap.xml
+Sitemap: https://kalakritiartstudio.com/sitemap.xml

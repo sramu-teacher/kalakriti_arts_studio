@@ -4,8 +4,8 @@ import { upsertMeta, upsertLink } from "../../utils/seo.js";
 
 const SITE_NAME = "Kalakriti Art Studio";
 // Canonical always points at the production domain, regardless of which
-// host this is actually running on (github.io preview vs. production) —
-// same convention already used by robots.txt/sitemap.xml.
+// host this is running on (e.g. localhost) — same convention as
+// robots.txt/sitemap.xml.
 const PRODUCTION_ORIGIN = "https://kalakritiartstudio.com";
 
 // Sets the document title and description/OG meta tags for the current
@@ -29,11 +29,13 @@ export default function SEO({ title, description, noindex = false }) {
     });
     upsertMeta({ property: "og:url", content: `${PRODUCTION_ORIGIN}${pathname}` });
     upsertLink("canonical", `${PRODUCTION_ORIGIN}${pathname}`);
-    // Site-wide <meta name="robots"> in index.html currently blocks everything
-    // (see the TEMPORARY preview-mode comment there). Once that's lifted for
-    // launch, this keeps the admin login and 404 page out of search results.
+    // Keeps the admin login and 404 page out of search results. Removed
+    // again on every other route — this is a client-side app, so without
+    // that a visit to /admin would leave noindex on every page after it.
     if (noindex) {
       upsertMeta({ name: "robots", content: "noindex, nofollow" });
+    } else {
+      document.head.querySelector('meta[name="robots"]')?.remove();
     }
   }, [title, description, noindex, pathname]);
 

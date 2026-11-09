@@ -5,11 +5,10 @@
 // replacing it outright) per the owner's preference for a
 // heading/subheading presentation.
 //
-// Paths are prefixed with BASE_URL (not hardcoded "/gallery/...") since
-// this currently deploys under a GitHub Pages subpath
-// (/kalakriti_arts_studio/) — see the same fix applied to the logo in
-// Header.jsx/Footer.jsx. BASE_URL is "/" locally and in a future
-// custom-domain root deploy, so this works unchanged either way.
+// Paths are prefixed with BASE_URL (not hardcoded "/gallery/...") so
+// they keep working if the site is ever served from a subpath again
+// (as during the github.io preview) — see the same pattern in
+// Header.jsx/Footer.jsx. On the custom-domain root deploy it's "/".
 const base = import.meta.env.BASE_URL;
 
 export const GALLERY_ITEMS = [

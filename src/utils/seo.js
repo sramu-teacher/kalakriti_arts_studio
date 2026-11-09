@@ -13,9 +13,8 @@ export function upsertMeta({ name, property, content }) {
 }
 
 // Creates or updates a <link rel="..."> tag — used by SEO.jsx for the
-// per-route canonical URL (points search engines at the production
-// domain for whichever route is currently rendered, even though this
-// is deployed from a github.io preview URL right now).
+// per-route canonical URL (always the production domain for whichever
+// route is currently rendered).
 export function upsertLink(rel, href) {
   let tag = document.head.querySelector(`link[rel="${rel}"]`);
   if (!tag) {

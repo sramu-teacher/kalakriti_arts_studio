@@ -6,38 +6,6 @@ Registrations, contact enquiries, and announcement banners are handled by
 a Google Apps Script Web App writing into a Google Sheet — there is no
 application server or database.
 
-## ⚠️ Currently in preview mode
-
-This repo is temporarily configured for a **design/content preview** at
-`https://sramu-teacher.github.io/kalakriti_arts_studio/` rather than the
-real `kalakritiartstudio.com` domain — it's meant to be shown to the
-studio owner for feedback before going live. Three things reflect that
-and need reverting when the real domain is ready:
-
-1. **`vite.config.js`** has `base: "/kalakriti_arts_studio/"` set, for a
-   GitHub Pages *project* page instead of a custom-domain root deploy.
-   Remove it once serving from the real domain.
-2. **`public/CNAME` doesn't exist** — it's sitting at `CNAME.production.txt`
-   in the repo root instead. Move it back to `public/CNAME` when DNS is
-   pointed at Pages (see the Custom domain section below), otherwise
-   GitHub Pages will try to redirect to a domain that isn't wired up yet.
-3. **`index.html`** has `<meta name="robots" content="noindex, nofollow">`
-   and **`public/robots.txt`** disallows everything — both keep the
-   preview out of search results. Remove the meta tag and restore the
-   commented-out block in `robots.txt` for the production launch.
-4. `public/404.html` and the redirect script in `index.html` implement
-   the standard GitHub Pages SPA-routing workaround (a project-page
-   static host has no fallback for client-side routes like `/gallery`
-   on direct load/refresh). Both become unnecessary on a custom-domain
-   root deploy with proper server-side SPA fallback configured (or can
-   stay — they're a no-op if a request never reaches them), but
-   `public/404.html`'s `segmentCount` is tied to the `/kalakriti_arts_studio/`
-   path depth and needs updating if `base` changes.
-
-Registration, contact, the announcement banner, and `/admin` all show a
-graceful "not configured" state in this preview since no Apps Script or
-Google OAuth Client ID is wired up yet — that's expected, not a bug.
-
 ## Local development
 
 ```
@@ -65,21 +33,33 @@ site and deploys it to GitHub Pages. The four env vars above must be set
 as repository secrets (Settings → Secrets and variables → Actions) for
 the build to have them.
 
-### Custom domain (kalakritiartstudio.com, purchased on GoDaddy)
+### Custom domain (kalakritiartstudio.com, registered on GoDaddy)
 
-1. In the repo's GitHub Pages settings, add `kalakritiartstudio.com` as
-   the custom domain (this repo already ships `public/CNAME` with that
-   value, so it should be picked up automatically once Pages is enabled).
-2. In GoDaddy's DNS panel for the domain, add:
-   - Four `A` records for `@` pointing at GitHub Pages' IPs
-     (`185.199.108.153`, `.109.153`, `.110.153`, `.111.153`), **or**
-   - A `CNAME` record for `www` pointing at `<org>.github.io` if serving
-     from the `www` subdomain instead.
-3. Wait for DNS propagation, then enable "Enforce HTTPS" in the GitHub
-   Pages settings once GitHub has issued a certificate.
+The site is served from the root of `https://kalakritiartstudio.com`.
+`public/CNAME` tells GitHub Pages the domain; there is no Vite `base`
+override. `public/404.html` + the inline script in `index.html` are the
+standard GitHub Pages SPA-routing workaround (Pages has no fallback for
+client-side routes like `/gallery` on a direct load or refresh) — keep
+both, with `segmentCount = 0` in `404.html` for the root deploy.
 
-This DNS step is a one-time action taken in the GoDaddy dashboard — it's
-not something this repository or its CI can do.
+DNS lives in GoDaddy and is a one-time manual step, not something this
+repo or CI can do:
+
+1. (Recommended) Verify the domain for the GitHub account (profile
+   Settings → Pages → Add a domain) via the TXT record GitHub provides,
+   so no one else can claim it on Pages.
+2. Disconnect any GoDaddy Website Builder site / domain forwarding, then
+   delete the existing `@` A **and AAAA** records.
+3. Add, for `@`:
+   - `A` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - `AAAA` → `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
+4. Add `CNAME` `www` → `sramu-teacher.github.io`.
+5. In the repo's Settings → Pages, set the custom domain to
+   `kalakritiartstudio.com`; once the DNS check passes and the
+   certificate is issued, enable **Enforce HTTPS**.
+6. In Google Cloud Console → Credentials → the `/admin` OAuth client,
+   add `https://kalakritiartstudio.com` and
+   `https://www.kalakritiartstudio.com` to Authorized JavaScript origins.
 
 ## Content still pending from the studio owner
 
