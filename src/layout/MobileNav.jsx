@@ -8,7 +8,7 @@ const linkClass = ({ isActive }) =>
 
 export default function MobileNav({ onNavigate }) {
   return (
-    <nav id="mobile-nav" className="border-t border-brand-green-800 bg-brand-green-900 md:hidden">
+    <nav id="mobile-nav" className="border-t border-brand-green-800 bg-brand-green-900 lg:hidden">
       <ul className="flex flex-col gap-1 px-2 py-3">
         {NAV_LINKS.map((link) => (
           <li key={link.path}>

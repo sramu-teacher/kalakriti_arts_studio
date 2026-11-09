@@ -5,7 +5,7 @@ import { NAV_LINKS } from "../data/constants.js";
 import MobileNav from "./MobileNav.jsx";
 
 const desktopLinkClass = ({ isActive }) =>
-  `text-sm font-medium tracking-wide transition-colors ${
+  `whitespace-nowrap text-sm font-medium tracking-wide transition-colors ${
     isActive ? "text-brand-gold-400" : "text-brand-cream-100 hover:text-brand-gold-400"
   }`;
 
@@ -23,7 +23,7 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-5 lg:flex xl:gap-6" aria-label="Primary">
           {NAV_LINKS.map((link) => (
             <NavLink key={link.path} to={link.path} end={link.path === "/"} className={desktopLinkClass}>
               {link.label}
@@ -31,7 +31,7 @@ export default function Header() {
           ))}
           <Link
             to="/classes"
-            className="rounded-full bg-brand-gold-500 px-5 py-2 text-sm font-semibold text-brand-green-950 transition-transform hover:scale-105"
+            className="whitespace-nowrap rounded-full bg-brand-gold-500 px-5 py-2 text-sm font-semibold text-brand-green-950 transition-transform hover:scale-105"
           >
             Register Now
           </Link>
@@ -39,7 +39,7 @@ export default function Header() {
 
         <button
           type="button"
-          className="p-2 text-brand-cream-100 md:hidden"
+          className="p-2 text-brand-cream-100 lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav"

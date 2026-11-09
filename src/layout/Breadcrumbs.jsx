@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { NAV_LINKS } from "../data/constants.js";
+import { getArtForSaleById } from "../data/artForSale.js";
 
 // Builds a simple breadcrumb trail from the current path using the same
 // labels as the main nav — good enough for this site's flat route depth
@@ -9,6 +10,7 @@ function labelFor(segment, pathname) {
   const navMatch = NAV_LINKS.find((link) => link.path === pathname);
   if (navMatch) return navMatch.label;
   if (segment === "register") return "Register";
+  if (segment === "interest") return "I'm Interested";
   return segment
     .split("-")
     .map((word) => word[0].toUpperCase() + word.slice(1))
@@ -22,6 +24,10 @@ export default function Breadcrumbs() {
   const segments = pathname.split("/").filter(Boolean);
   const crumbs = segments.map((segment, index) => {
     const path = "/" + segments.slice(0, index + 1).join("/");
+    // Art pieces have no page of their own (/art-for-sale/:id) — show
+    // the real title and point the crumb back at the listing instead.
+    const piece = segments[0] === "art-for-sale" && index === 1 && getArtForSaleById(segment);
+    if (piece) return { path: "/art-for-sale", label: piece.title };
     return { path, label: labelFor(segment, path) };
   });
 
@@ -34,7 +40,7 @@ export default function Breadcrumbs() {
           </Link>
         </li>
         {crumbs.map((crumb, index) => (
-          <li key={crumb.path} className="flex items-center gap-1">
+          <li key={index} className="flex items-center gap-1">
             <ChevronRight size={14} className="text-brand-green-700/60" />
             {index === crumbs.length - 1 ? (
               <span aria-current="page" className="font-medium text-brand-green-950">

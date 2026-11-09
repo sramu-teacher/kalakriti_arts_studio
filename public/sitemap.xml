@@ -6,6 +6,7 @@
   <url><loc>https://kalakritiartstudio.com/catalog</loc><priority>0.7</priority></url>
   <url><loc>https://kalakritiartstudio.com/events</loc><priority>0.8</priority></url>
   <url><loc>https://kalakritiartstudio.com/gallery</loc><priority>0.6</priority></url>
+  <url><loc>https://kalakritiartstudio.com/art-for-sale</loc><priority>0.7</priority></url>
   <url><loc>https://kalakritiartstudio.com/contact</loc><priority>0.7</priority></url>
   <url><loc>https://kalakritiartstudio.com/classes/little-picassos/register</loc><priority>0.5</priority></url>
   <url><loc>https://kalakritiartstudio.com/classes/teen-art-lab/register</loc><priority>0.5</priority></url>
@@ -14,4 +15,8 @@
   <url><loc>https://kalakritiartstudio.com/classes/clay-pottery/register</loc><priority>0.5</priority></url>
   <url><loc>https://kalakritiartstudio.com/events/special-event-celebrations/interest</loc><priority>0.5</priority></url>
   <url><loc>https://kalakritiartstudio.com/events/seasonal-holiday-camp/interest</loc><priority>0.5</priority></url>
+  <url><loc>https://kalakritiartstudio.com/art-for-sale/pichwai-cow-wall-hanging/interest</loc><priority>0.5</priority></url>
+  <url><loc>https://kalakritiartstudio.com/art-for-sale/lotus-kamadhenu-wall-hanging/interest</loc><priority>0.5</priority></url>
+  <url><loc>https://kalakritiartstudio.com/art-for-sale/lotus-elephant-wall-hanging/interest</loc><priority>0.5</priority></url>
+  <url><loc>https://kalakritiartstudio.com/art-for-sale/fish-pair-wall-hanging/interest</loc><priority>0.5</priority></url>
 </urlset>

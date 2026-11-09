@@ -9,6 +9,8 @@ import Catalog from "./pages/Catalog.jsx";
 import Events from "./pages/Events.jsx";
 import EventInterest from "./pages/EventInterest.jsx";
 import Gallery from "./pages/Gallery.jsx";
+import ArtForSale from "./pages/ArtForSale.jsx";
+import ArtInterest from "./pages/ArtInterest.jsx";
 import Contact from "./pages/Contact.jsx";
 import Admin from "./pages/Admin.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -48,6 +50,8 @@ export default function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/events/:slug/interest" element={<EventInterest />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/art-for-sale" element={<ArtForSale />} />
+          <Route path="/art-for-sale/:id/interest" element={<ArtInterest />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />

@@ -33,5 +33,6 @@ export const NAV_LINKS = [
   { label: "Catalog", path: "/catalog" },
   { label: "Events", path: "/events" },
   { label: "Gallery", path: "/gallery" },
+  { label: "Shop Art", path: "/art-for-sale" },
   { label: "Contact", path: "/contact" },
 ];
