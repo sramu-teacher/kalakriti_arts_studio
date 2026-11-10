@@ -17,6 +17,16 @@ const initialForm = {
   active: true,
 };
 
+// Today as "YYYY-MM-DD" in the admin's local time (what <input type="date"> uses).
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+// New events start showing today by default, so they're visible and
+// open for interest ahead of the event itself.
+const blankForm = () => ({ ...initialForm, showFrom: todayISO() });
+
 const INPUT =
   "mt-1 w-full rounded-lg border border-brand-green-800/20 px-3 py-2 font-normal outline-none focus:border-brand-gold-500 focus:ring-2 focus:ring-brand-gold-500/30";
 const LABEL = "block text-sm font-medium text-brand-green-900";
@@ -42,7 +52,7 @@ function siteUrl(path) {
 
 const STATUS_LABEL = {
   hidden: { text: "Hidden", className: "bg-brand-green-900/10 text-brand-green-900/70" },
-  upcoming: { text: "Scheduled", className: "bg-brand-gold-500/15 text-brand-gold-600" },
+  upcoming: { text: "Not shown yet", className: "bg-brand-gold-500/15 text-brand-gold-600" },
   live: { text: "On the website", className: "bg-green-100 text-green-800" },
   ended: { text: "Ended", className: "bg-brand-green-900/10 text-brand-green-900/70" },
 };
@@ -55,7 +65,7 @@ export default function EventEditor({ onCreateBanner }) {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [listError, setListError] = useState(null);
-  const [form, setForm] = useState(initialForm);
+  const [form, setForm] = useState(blankForm);
   const [editingSlug, setEditingSlug] = useState(null); // null = creating
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -89,7 +99,7 @@ export default function EventEditor({ onCreateBanner }) {
   }
 
   function resetForm() {
-    setForm(initialForm);
+    setForm(blankForm());
     setEditingSlug(null);
     setError(null);
     setNewImage(null);
@@ -138,7 +148,11 @@ export default function EventEditor({ onCreateBanner }) {
   async function handleSubmit(e) {
     e.preventDefault();
     if (form.showUntil < form.showFrom) {
-      setError('"Show until" must be on or after "Show from".');
+      setError('"Stop showing after" must be on or after "Start showing on".');
+      return;
+    }
+    if (!editingSlug && form.showUntil < todayISO()) {
+      setError('"Stop showing after" is in the past, so this event would only ever show "This event has ended".');
       return;
     }
     setSaving(true);
@@ -237,25 +251,35 @@ export default function EventEditor({ onCreateBanner }) {
         </label>
 
         <label className={LABEL}>
-          When is it? *
-          <input required value={form.eventDates} onChange={(e) => updateField("eventDates", e.target.value)} className={INPUT} placeholder="e.g. Sat 25 Oct, 10 am – 1 pm" />
+          When is the event? * <span className={HINT}>(shown to visitors as written)</span>
+          <input required value={form.eventDates} onChange={(e) => updateField("eventDates", e.target.value)} className={INPUT} placeholder="e.g. Sat 13 Dec, 10 am – 1 pm" />
         </label>
 
         <fieldset className="rounded-xl border border-brand-green-800/15 p-4">
-          <legend className="px-1 text-sm font-medium text-brand-green-900">Show on the website *</legend>
+          <legend className="px-1 text-sm font-medium text-brand-green-900">
+            When can people see it and sign up? *
+          </legend>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className={LABEL}>
-              From
-              <input type="date" required value={form.showFrom} onChange={(e) => updateField("showFrom", e.target.value)} className={INPUT} />
+              Start showing on
+              <input type="date" required value={form.showFrom} onChange={(e) => updateField("showFrom", e.target.value)} className={INPUT} aria-describedby="window-hint" />
             </label>
             <label className={LABEL}>
-              Until
-              <input type="date" required value={form.showUntil} onChange={(e) => updateField("showUntil", e.target.value)} className={INPUT} />
+              Stop showing after
+              <input type="date" required value={form.showUntil} onChange={(e) => updateField("showUntil", e.target.value)} className={INPUT} aria-describedby="window-hint" />
             </label>
           </div>
-          <p className="mt-2 text-xs text-brand-green-900/60">
-            Usually until the last day people can sign up. After that its link shows "This event has ended".
+          <p id="window-hint" className="mt-2 text-xs text-brand-green-900/60">
+            This is separate from the event date. Start showing it today (or whenever you're ready to announce it) so
+            people can find it and send "I'm Interested" ahead of time. Stop after the last day to sign up — often the
+            day before the event — after which its link says "This event has ended".
           </p>
+          {form.showFrom > todayISO() && (
+            <p className="mt-2 rounded-lg bg-brand-gold-500/15 px-3 py-2 text-xs text-brand-green-950">
+              Heads up: this event stays <strong>hidden until {form.showFrom}</strong> — it won't be on the Events
+              page and its link won't work before then. To announce it now, set "Start showing on" to today.
+            </p>
+          )}
         </fieldset>
 
         <label className={LABEL}>
@@ -369,7 +393,7 @@ export default function EventEditor({ onCreateBanner }) {
                     </div>
                     <p className="mt-1 text-xs text-brand-green-900/60">{event.eventDates}</p>
                     <p className="text-xs text-brand-green-900/60">
-                      On website {event.showFrom} → {event.showUntil}
+                      Shown on website {event.showFrom} → {event.showUntil}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-1">
                       <IconButton label={`Edit ${event.name}`} onClick={() => startEdit(event)} icon={Pencil} text="Edit" />
