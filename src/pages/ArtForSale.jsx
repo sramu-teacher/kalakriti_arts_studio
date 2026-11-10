@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import SEO from "../components/shared/SEO.jsx";
+import { PAGE_META } from "../data/pageMeta.js";
 import { ART_FOR_SALE } from "../data/artForSale.js";
 import { WHATSAPP_URL, CONTACT_EMAIL, PHONE_DISPLAY } from "../data/constants.js";
 
@@ -47,10 +48,7 @@ function ArtForSaleCard({ piece }) {
 export default function ArtForSale() {
   return (
     <>
-      <SEO
-        title="Art for Sale"
-        description="Hand-painted artwork made at Kalakriti Art Studio, available to buy. Enquire about any piece on WhatsApp or by email."
-      />
+      <SEO {...PAGE_META.artForSale} />
       <div className="bg-brand-green-900 px-4 py-12 text-center text-brand-cream-100 sm:px-8">
         <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-400">Art for Sale</p>
         <h1 className="mt-2 font-display text-4xl">Take a Piece of the Studio Home</h1>

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import SEO from "../components/shared/SEO.jsx";
+import { PAGE_META } from "../data/pageMeta.js";
 import ClassSection from "../components/classes/ClassSection.jsx";
 import { CLASSES } from "../data/classes.js";
 import { upsertJsonLd, removeJsonLd } from "../utils/seo.js";
@@ -28,10 +29,7 @@ export default function Classes() {
 
   return (
     <>
-      <SEO
-        title="Art Classes for Kids, Teens & Adults"
-        description="Explore Kalakriti Art Studio's classes for kids, teens, and adults — drawing, painting, mandala art, pottery, and more."
-      />
+      <SEO {...PAGE_META.classes} />
       <div className="bg-brand-green-900 px-4 py-12 text-center text-brand-cream-100 sm:px-8">
         <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-400">Enquire Today</p>
         <h1 className="mt-2 font-display text-4xl">Our Classes</h1>

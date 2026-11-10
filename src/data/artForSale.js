@@ -15,6 +15,7 @@ export const ART_FOR_SALE = [
     title: "Pichwai Cow & Lotus Wall Hangings",
     style: "Hand-painted wood · Pichwai style",
     description: "A pair of hanging cows under lotus strands, finished with pearl beads and brass bells.",
+    imagePath: "for-sale/pichwai-cow-wall-hanging.jpg",
     image: `${base}for-sale/pichwai-cow-wall-hanging.jpg`,
   },
   {
@@ -22,6 +23,7 @@ export const ART_FOR_SALE = [
     title: "Kamadhenu Lotus Wall Hanging",
     style: "Hand-painted wood · Pichwai style",
     description: "A decorated cow on a pink-and-yellow lotus medallion, with a pearl and brass bell drop.",
+    imagePath: "for-sale/lotus-kamadhenu-wall-hanging.jpg",
     image: `${base}for-sale/lotus-kamadhenu-wall-hanging.jpg`,
   },
   {
@@ -29,6 +31,7 @@ export const ART_FOR_SALE = [
     title: "Lotus & Elephant Wall Hangings",
     style: "Hand-painted wood · Rajasthani style",
     description: "A pair of three-lotus strands ending in caparisoned elephants and brass bells.",
+    imagePath: "for-sale/lotus-elephant-wall-hanging.jpg",
     image: `${base}for-sale/lotus-elephant-wall-hanging.jpg`,
   },
   {
@@ -36,6 +39,7 @@ export const ART_FOR_SALE = [
     title: "Festive Fish Wall Hangings",
     style: "Hand-painted wood · Madhubani-inspired",
     description: "A pair of double-fish strands in red, orange and yellow, with pearl beads and brass bells.",
+    imagePath: "for-sale/fish-pair-wall-hanging.jpg",
     image: `${base}for-sale/fish-pair-wall-hanging.jpg`,
   },
 ];

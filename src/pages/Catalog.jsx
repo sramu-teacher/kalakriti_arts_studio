@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
 import SEO from "../components/shared/SEO.jsx";
+import { PAGE_META } from "../data/pageMeta.js";
 import CatalogCategorySection from "../components/catalog/CatalogCategorySection.jsx";
 import { CATALOG } from "../data/catalog.js";
 
 export default function Catalog() {
   return (
     <>
-      <SEO
-        title="Full Style Catalog"
-        description="Every technique and painting style taught at Kalakriti Art Studio — foundation drawing & painting, traditional Indian painting styles, custom programs, and quick one-hour sessions."
-      />
+      <SEO {...PAGE_META.catalog} />
       <div className="bg-brand-green-900 px-4 py-12 text-center text-brand-cream-100 sm:px-8">
         <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-400">Our Menu of Styles</p>
         <h1 className="mt-2 font-display text-4xl">From First Sketch to Signature Piece</h1>

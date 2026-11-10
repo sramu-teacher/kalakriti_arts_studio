@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import SEO from "../components/shared/SEO.jsx";
+import { eventInterestMeta } from "../data/pageMeta.js";
 import EventInterestForm from "../components/events/EventInterestForm.jsx";
 import { getEventBySlug } from "../data/events.js";
 import NotFound from "./NotFound.jsx";
@@ -12,10 +13,7 @@ export default function EventInterest() {
 
   return (
     <>
-      <SEO
-        title={`I'm Interested — ${event.name}`}
-        description={`Let us know you're interested in ${event.name} at Kalakriti Art Studio.`}
-      />
+      <SEO {...eventInterestMeta(event)} />
       <div className="bg-brand-green-900 px-4 py-10 text-center text-brand-cream-100 sm:px-8">
         <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-400">Studio Event</p>
         <h1 className="mt-2 font-display text-3xl sm:text-4xl">{event.name}</h1>

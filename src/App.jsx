@@ -8,6 +8,7 @@ import ClassRegister from "./pages/ClassRegister.jsx";
 import Catalog from "./pages/Catalog.jsx";
 import Events from "./pages/Events.jsx";
 import EventInterest from "./pages/EventInterest.jsx";
+import EventDetail from "./pages/EventDetail.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import ArtForSale from "./pages/ArtForSale.jsx";
 import ArtInterest from "./pages/ArtInterest.jsx";
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/classes/:slug/register" element={<ClassRegister />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:slug" element={<EventDetail />} />
           <Route path="/events/:slug/interest" element={<EventInterest />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/art-for-sale" element={<ArtForSale />} />
