@@ -4,6 +4,15 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Sent by the Apps Script backend whenever an event is created, edited
+  # or deleted in /admin, so its page and link preview are rebuilt.
+  repository_dispatch:
+    types: [content-updated]
+  # Daily rebuild just after midnight IST (18:45 UTC), so events whose
+  # "show on website" window opens or closes that day are picked up even
+  # if nothing was edited.
+  schedule:
+    - cron: "45 18 * * *"
 
 permissions:
   contents: read

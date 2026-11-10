@@ -1,6 +1,8 @@
 // Thin client for the Google Apps Script Web App that backs
 // registrations, contact enquiries, and announcement banners — see
 // google-apps-script/Code.gs for the server-side contract.
+import { getAccessToken } from "./googleAuth.js";
+
 const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
 
 function ensureConfigured() {
@@ -92,14 +94,24 @@ export function submitEventInterest(payload) {
   return requestWithRetry("eventInterest", { ...payload, requestId: newRequestId() });
 }
 
-export function saveBanner(payload) {
-  return requestWithRetry("saveBanner", { ...payload, requestId: newRequestId() });
+// Owner-only actions carry the signed-in owner's Google access token
+// (the exported functions using this are async so a missing token
+// surfaces as a rejected promise, not a synchronous throw),
+// which Code.gs verifies with Google (requireOwner_). ownerEmail is kept
+// alongside it so older deployed copies of the script, which checked
+// only that, keep working until Code.gs is redeployed.
+function asOwner(payload) {
+  return { ...payload, accessToken: getAccessToken(), ownerEmail: import.meta.env.VITE_ADMIN_EMAIL };
+}
+
+export async function saveBanner(payload) {
+  return requestWithRetry("saveBanner", asOwner({ ...payload, requestId: newRequestId() }));
 }
 
 // Safe to retry — editing the same row with the same values twice does
 // no harm (see the comment on handleUpdateBanner_ in Code.gs).
-export function updateBanner(payload) {
-  return requestWithRetry("updateBanner", payload);
+export async function updateBanner(payload) {
+  return requestWithRetry("updateBanner", asOwner(payload));
 }
 
 // Deliberately a single attempt, not requestWithRetry — deleting shifts
@@ -107,10 +119,39 @@ export function updateBanner(payload) {
 // an unconfirmed-but-actually-successful delete could remove the wrong
 // banner. BannerEditor re-fetches the list after every delete attempt
 // (success or failure) so displayed rowNumbers are never stale.
-export function deleteBanner(payload) {
-  return request("deleteBanner", payload);
+export async function deleteBanner(payload) {
+  return request("deleteBanner", asOwner(payload));
 }
 
 export function getBanners() {
   return requestWithRetry("banners");
+}
+
+// --- Admin-created events (the "Event Listings" tab) ---
+
+// Public: active events whose "show from" date has arrived (incl. ended
+// ones, so their pages can say "This event has ended").
+export function getEvents() {
+  return requestWithRetry("events");
+}
+
+export function getEventImage(slug) {
+  return requestWithRetry("eventImage", { slug });
+}
+
+export async function getAdminEvents() {
+  return requestWithRetry("adminEvents", asOwner({}));
+}
+
+export async function saveEvent(payload) {
+  return requestWithRetry("saveEvent", asOwner({ ...payload, requestId: newRequestId() }));
+}
+
+// Edits and deletes target the event by slug, so retries are safe.
+export async function updateEvent(payload) {
+  return requestWithRetry("updateEvent", asOwner(payload));
+}
+
+export async function deleteEvent(slug) {
+  return requestWithRetry("deleteEvent", asOwner({ slug }));
 }

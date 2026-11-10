@@ -5,7 +5,7 @@ export default function AdminLogin({ onSignIn, signingIn, error }) {
     <div className="mx-auto max-w-sm rounded-2xl bg-white p-8 text-center shadow-sm">
       <h1 className="font-display text-2xl text-brand-green-900">Studio Admin</h1>
       <p className="mt-2 text-sm text-brand-green-900/70">
-        Sign in with the studio's Google account to manage announcement banners.
+        Sign in with the studio's Google account to manage events and announcement banners.
       </p>
       <button
         type="button"

@@ -9,6 +9,16 @@ export function isBannerActive(banner, today = new Date()) {
   return true;
 }
 
+// Where today falls relative to a [start, end] window of "YYYY-MM-DD"
+// calendar dates (inclusive): "upcoming", "live" or "ended". Used for
+// admin-created events' "show on website from/until" window.
+export function dateWindowStatus(start, end, today = new Date()) {
+  const day = stripTime(today);
+  if (start && day < parseDateOnly(start)) return "upcoming";
+  if (end && day > parseDateOnly(end)) return "ended";
+  return "live";
+}
+
 function stripTime(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 }

@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { NAV_LINKS } from "../data/constants.js";
 import { getArtForSaleById } from "../data/artForSale.js";
-import { getEventBySlug } from "../data/events.js";
+import { findEvent } from "../data/eventListings.js";
 
 // Builds a simple breadcrumb trail from the current path using the same
 // labels as the main nav — good enough for this site's flat route depth
@@ -29,7 +29,7 @@ export default function Breadcrumbs() {
     // the real title and point the crumb back at the listing instead.
     const piece = segments[0] === "art-for-sale" && index === 1 && getArtForSaleById(segment);
     if (piece) return { path: "/art-for-sale", label: piece.title };
-    const event = segments[0] === "events" && index === 1 && getEventBySlug(segment);
+    const event = segments[0] === "events" && index === 1 && findEvent(segment);
     if (event) return { path, label: event.name };
     return { path, label: labelFor(segment, path) };
   });

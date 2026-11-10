@@ -13,6 +13,10 @@ dist-ssr
 *.local
 .env
 
+# Generated at build time by scripts/fetch-content.mjs
+src/data/generated/
+public/event-images/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

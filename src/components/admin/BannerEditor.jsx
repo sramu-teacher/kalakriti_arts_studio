@@ -5,7 +5,9 @@ import { isBannerActive } from "../../utils/dateRange.js";
 
 const initialForm = { message: "", startDate: "", endDate: "", active: true, actionLabel: "", actionUrl: "" };
 
-export default function BannerEditor({ ownerEmail }) {
+// `prefill` (from EventEditor's "Create banner") starts a new banner with
+// the event's message, link and dates filled in, ready to review & save.
+export default function BannerEditor({ prefill }) {
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState(initialForm);
@@ -26,6 +28,13 @@ export default function BannerEditor({ ownerEmail }) {
   useEffect(() => {
     loadBanners();
   }, []);
+
+  useEffect(() => {
+    if (!prefill) return;
+    setForm({ ...initialForm, ...prefill });
+    setEditingRow(null);
+    setError(null);
+  }, [prefill]);
 
   function resetForm() {
     setForm(initialForm);
@@ -53,9 +62,9 @@ export default function BannerEditor({ ownerEmail }) {
     setError(null);
     try {
       if (editingRow) {
-        await updateBanner({ ...form, rowNumber: editingRow, ownerEmail });
+        await updateBanner({ ...form, rowNumber: editingRow });
       } else {
-        await saveBanner({ ...form, ownerEmail });
+        await saveBanner(form);
       }
       resetForm();
       loadBanners();
@@ -71,7 +80,7 @@ export default function BannerEditor({ ownerEmail }) {
     setDeletingRow(banner.rowNumber);
     setListError(null);
     try {
-      await deleteBanner({ rowNumber: banner.rowNumber, ownerEmail });
+      await deleteBanner({ rowNumber: banner.rowNumber });
       if (editingRow === banner.rowNumber) resetForm();
     } catch (err) {
       setListError(err.message || "Couldn't delete the banner — please try again.");
@@ -92,7 +101,7 @@ export default function BannerEditor({ ownerEmail }) {
       <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <h2 className="flex items-center gap-2 font-display text-xl text-brand-green-900">
-            <Megaphone size={20} /> {editingRow ? "Edit Announcement" : "New Announcement"}
+            <Megaphone size={20} aria-hidden="true" /> {editingRow ? "Edit Announcement" : "New Announcement"}
           </h2>
           {editingRow && (
             <button

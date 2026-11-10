@@ -11,7 +11,7 @@
 // `image` is a path relative to the site root (no leading slash); the
 // preview tags turn it into an absolute production URL.
 import { CLASSES } from "./classes.js";
-import { EVENTS } from "./events.js";
+import { allEvents, getEventStatus } from "./eventListings.js";
 import { ART_FOR_SALE } from "./artForSale.js";
 
 export const PRODUCTION_ORIGIN = "https://kalakritiartstudio.com";
@@ -116,7 +116,15 @@ export function getAllRouteMeta() {
   return [
     ...Object.values(PAGE_META),
     ...CLASSES.map(classRegisterMeta),
-    ...EVENTS.flatMap((event) => [eventMeta(event), eventInterestMeta(event)]),
+    // Admin-created events baked in at build time are included; ones
+    // past their "show until" date keep a page ("This event has ended")
+    // but are kept out of search results and the sitemap.
+    ...allEvents()
+      .filter((event) => getEventStatus(event) !== "upcoming")
+      .flatMap((event) => {
+        const noindex = getEventStatus(event) === "ended";
+        return [eventMeta(event), eventInterestMeta(event)].map((meta) => ({ ...meta, noindex }));
+      }),
     ...ART_FOR_SALE.map(artInterestMeta),
   ];
 }

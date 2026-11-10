@@ -1,7 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
+import { CheckCircle2, MessageCircle, ArrowRight, CalendarDays } from "lucide-react";
 import { WHATSAPP_URL } from "../../data/constants.js";
 import ShareButton from "../shared/ShareButton.jsx";
+
+// An admin-created event's picture. Hidden if it can't load — e.g. an
+// event saved moments ago whose picture is copied into the site by the
+// rebuild that's still running.
+function EventImage({ event }) {
+  const [failed, setFailed] = useState(false);
+  if (!event.image || failed) return null;
+  return (
+    <img
+      src={`${import.meta.env.BASE_URL}${event.image}`}
+      alt={event.name}
+      onError={() => setFailed(true)}
+      className="mt-6 max-h-[28rem] w-full rounded-2xl bg-brand-cream-100 object-cover first:mt-0"
+    />
+  );
+}
 
 // Used on the Events list (title links to the event's own page) and on
 // that page itself (showHeader=false — the page renders the name as its
@@ -29,7 +46,19 @@ export default function EventSection({ event, showHeader = true }) {
         </>
       )}
 
-      <p className={`${showHeader ? "mt-6" : ""} text-lg text-brand-green-950/90`}>{event.intro}</p>
+      {event.isListing && <EventImage event={event} />}
+
+      {event.eventDates && (
+        <p className="mt-6 flex items-start gap-2 font-semibold text-brand-green-900 first:mt-0">
+          <CalendarDays size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-gold-600" />
+          <span>
+            <span className="sr-only">When: </span>
+            {event.eventDates}
+          </span>
+        </p>
+      )}
+
+      <p className="mt-6 text-lg text-brand-green-950/90 first:mt-0">{event.intro}</p>
 
       <div className="mt-4 space-y-4 text-brand-green-950/80">
         {event.description.map((paragraph, index) => (

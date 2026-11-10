@@ -1,11 +1,12 @@
 // Minimal Google Identity Services sign-in for the /admin route only —
-// identifies the signed-in owner so Admin.jsx can gate the banner
-// editor. Adapted from teacher_connect/src/googleDrive.js's token-client
-// pattern, but scoped to "email profile" only: no Drive/Sheets scope is
-// needed here since all persistence goes through the Apps Script
-// endpoints in googleSheets.js, not direct Google API calls.
+// identifies the signed-in owner so Admin.jsx can gate the editors, and
+// provides the access token that owner-only Apps Script actions verify
+// server-side (see requireOwner_ in google-apps-script/Code.gs).
+// drive.file lets /admin upload event pictures straight into the owner's
+// Drive (utils/driveUpload.js); it only grants access to files this app
+// creates, not the rest of the owner's Drive.
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-const SCOPE = "email profile";
+const SCOPE = "email profile https://www.googleapis.com/auth/drive.file";
 
 let gisLoaded = null;
 let tokenClient = null;
@@ -89,6 +90,11 @@ export function requestInteractiveSignIn() {
   ensureConfigured();
   accessToken = null;
   return requestToken("consent");
+}
+
+export function getAccessToken() {
+  if (!accessToken) throw new Error("Please sign in again.");
+  return accessToken;
 }
 
 export async function getUserProfile() {

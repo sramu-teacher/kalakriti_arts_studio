@@ -1,9 +1,16 @@
 import SEO from "../components/shared/SEO.jsx";
 import { PAGE_META } from "../data/pageMeta.js";
 import EventSection from "../components/events/EventSection.jsx";
-import { EVENTS } from "../data/events.js";
+import { useStudioEvents } from "../hooks/useStudioEvents.js";
+import { getEventStatus } from "../data/eventListings.js";
 
 export default function Events() {
+  const { events } = useStudioEvents();
+  // Admin-created events inside their "show on website" window first
+  // (time-limited workshops), then the always-on built-in ones.
+  const visible = events.filter((event) => getEventStatus(event) === "live");
+  visible.sort((a, b) => Number(!!b.isListing) - Number(!!a.isListing));
+
   return (
     <>
       <SEO {...PAGE_META.events} />
@@ -17,7 +24,7 @@ export default function Events() {
       </div>
 
       <div className="space-y-10 px-4 py-14 sm:px-8">
-        {EVENTS.map((event) => (
+        {visible.map((event) => (
           <EventSection key={event.slug} event={event} />
         ))}
       </div>
