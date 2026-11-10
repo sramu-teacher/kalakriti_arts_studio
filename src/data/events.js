@@ -1,11 +1,15 @@
 // Studio-hosted events the owner wants to promote and take bookings
 // for. Structured the same way as data/classes.js — a single source of
 // truth components read from, so adding a new event is just a new
-// entry here, no code changes needed.
+// entry here, no code changes needed. Each event gets its own shareable
+// page at /events/<slug> — keep the slug stable once published, since
+// ads and shared links point at it. `image` (root-relative) is the
+// link-preview picture for WhatsApp/Facebook/ads.
 export const EVENTS = [
   {
     slug: "special-event-celebrations",
     name: "Special Event Celebrations",
+    image: "gallery/creative-time-together.jpg",
     tagline: "Make Any Celebration a Masterpiece",
     intro:
       "Skip the usual bounce castle. Give any celebration a creative centrepiece people will actually remember — birthdays especially, but honestly, any excuse works.",
@@ -28,6 +32,7 @@ export const EVENTS = [
   {
     slug: "seasonal-holiday-camp",
     name: "Seasonal Holiday Camp",
+    image: "gallery/little-hands-big-creativity.jpg",
     tagline: "A Creative Escape This Holiday",
     intro:
       "School's out — and instead of another screen-filled week, give them days full of colour, clay, and new things to be proud of.",

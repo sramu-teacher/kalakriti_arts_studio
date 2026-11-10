@@ -1,4 +1,5 @@
 import SEO from "../components/shared/SEO.jsx";
+import { PAGE_META } from "../data/pageMeta.js";
 import FounderBio from "../components/about/FounderBio.jsx";
 import VisionSection from "../components/about/VisionSection.jsx";
 import TestimonialQuote from "../components/about/TestimonialQuote.jsx";
@@ -6,10 +7,7 @@ import TestimonialQuote from "../components/about/TestimonialQuote.jsx";
 export default function About() {
   return (
     <>
-      <SEO
-        title="Our Story"
-        description="Meet Supriya Suresh, founder of Kalakriti Art Studio — artist, interior designer, and art educator building a creative community in Bengaluru."
-      />
+      <SEO {...PAGE_META.about} />
       <FounderBio />
       <VisionSection />
       <TestimonialQuote />

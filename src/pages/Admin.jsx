@@ -1,4 +1,5 @@
 import SEO from "../components/shared/SEO.jsx";
+import { PAGE_META } from "../data/pageMeta.js";
 import AdminLogin from "../components/admin/AdminLogin.jsx";
 import BannerEditor from "../components/admin/BannerEditor.jsx";
 import { useGoogleAuth } from "../hooks/useGoogleAuth.js";
@@ -12,7 +13,7 @@ export default function Admin() {
 
   return (
     <>
-      <SEO title="Studio Admin" noindex />
+      <SEO {...PAGE_META.admin} />
       <div className="px-4 py-14 sm:px-8">
         {!profile ? (
           <AdminLogin onSignIn={signIn} signingIn={signingIn} error={error} />

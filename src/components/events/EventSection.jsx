@@ -1,15 +1,35 @@
 import { Link } from "react-router-dom";
 import { CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
 import { WHATSAPP_URL } from "../../data/constants.js";
+import ShareButton from "../shared/ShareButton.jsx";
 
-export default function EventSection({ event }) {
+// Used on the Events list (title links to the event's own page) and on
+// that page itself (showHeader=false — the page renders the name as its
+// <h1> above this).
+export default function EventSection({ event, showHeader = true }) {
+  const path = `/events/${event.slug}`;
   return (
-    <section className="mx-auto max-w-4xl rounded-3xl bg-white p-6 shadow-sm sm:p-10">
-      <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-600">Studio Event</p>
-      <h2 className="mt-2 font-display text-3xl text-brand-green-900 sm:text-4xl">{event.name}</h2>
-      <p className="mt-2 font-display text-lg italic text-brand-gold-600">{event.tagline}</p>
+    <section
+      aria-labelledby={showHeader ? `event-${event.slug}` : undefined}
+      aria-label={showHeader ? undefined : "Event details"}
+      className="mx-auto max-w-4xl rounded-3xl bg-white p-6 shadow-sm sm:p-10"
+    >
+      {showHeader && (
+        <>
+          <p className="text-xs uppercase tracking-[0.3em] text-brand-gold-600">Studio Event</p>
+          <h2 id={`event-${event.slug}`} className="mt-2 font-display text-3xl text-brand-green-900 sm:text-4xl">
+            <Link
+              to={path}
+              className="rounded-sm underline decoration-brand-gold-500/50 decoration-2 underline-offset-4 transition-colors hover:text-brand-gold-600 hover:decoration-brand-gold-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold-500"
+            >
+              {event.name}
+            </Link>
+          </h2>
+          <p className="mt-2 font-display text-lg italic text-brand-gold-600">{event.tagline}</p>
+        </>
+      )}
 
-      <p className="mt-6 text-lg text-brand-green-950/90">{event.intro}</p>
+      <p className={`${showHeader ? "mt-6" : ""} text-lg text-brand-green-950/90`}>{event.intro}</p>
 
       <div className="mt-4 space-y-4 text-brand-green-950/80">
         {event.description.map((paragraph, index) => (
@@ -28,7 +48,7 @@ export default function EventSection({ event }) {
 
       {event.closing && <p className="mt-6 font-display text-lg text-brand-green-900">{event.closing}</p>}
 
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-start">
         <a
           href={`${WHATSAPP_URL}?text=${encodeURIComponent(event.whatsappMessage)}`}
           target="_blank"
@@ -44,6 +64,7 @@ export default function EventSection({ event }) {
         >
           I'm Interested <ArrowRight size={16} />
         </Link>
+        <ShareButton path={path} title={event.name} />
       </div>
     </section>
   );
