@@ -1,15 +1,16 @@
 import SEO from "../components/shared/SEO.jsx";
 import { PAGE_META } from "../data/pageMeta.js";
 import EventSection from "../components/events/EventSection.jsx";
+import { EVENTS } from "../data/events.js";
 import { useStudioEvents } from "../hooks/useStudioEvents.js";
 import { getEventStatus } from "../data/eventListings.js";
 
 export default function Events() {
-  const { events } = useStudioEvents();
+  const { confirmedListings } = useStudioEvents();
   // Admin-created events inside their "show on website" window first
-  // (time-limited workshops), then the always-on built-in ones.
-  const visible = events.filter((event) => getEventStatus(event) === "live");
-  visible.sort((a, b) => Number(!!b.isListing) - Number(!!a.isListing));
+  // (time-limited workshops), once the live list confirms them; the
+  // always-on built-in events show immediately.
+  const workshops = (confirmedListings ?? []).filter((event) => getEventStatus(event) === "live");
 
   return (
     <>
@@ -24,7 +25,12 @@ export default function Events() {
       </div>
 
       <div className="space-y-10 px-4 py-14 sm:px-8">
-        {visible.map((event) => (
+        <div aria-live="polite">
+          {confirmedListings === null && (
+            <p className="text-center text-sm text-brand-green-900/60">Checking for current workshops…</p>
+          )}
+        </div>
+        {[...workshops, ...EVENTS].map((event) => (
           <EventSection key={event.slug} event={event} />
         ))}
       </div>
